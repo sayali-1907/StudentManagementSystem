@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: student_management_api
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=StudentManagementDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - Jwt__Key=YourSuperSecretKeyHere_MustBe32CharsOrMore!
+      - Jwt__Issuer=StudentManagementAPI
+      - Jwt__Audience=StudentManagementClient
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    restart: unless-stopped
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: student_management_db
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+      - MSSQL_PID=Express
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong@Passw0rd -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      retries: 10
+      timeout: 5s
+    restart: unless-stopped
+
+volumes:
+  sqlserver_data:

@@ -36,6 +36,7 @@ How to Run the Project in VS Code
 Step 1: Clone the repository
 bashgit clone https://github.com/yourusername/StudentManagementSystem.git
 cd StudentManagementSystem
+
 Step 2: Open project in VS Code
 
 Open VS Code
@@ -49,13 +50,16 @@ json"ConnectionStrings": {
 }
 If you use SQL Server with username and password:
 Server=localhost;Database=StudentManagementDB;User Id=sa;Password=YourPassword;TrustServerCertificate=True;
+
 Step 4: Apply database migrations
 Open terminal in VS Code and run:
 bashcd StudentManagement
 dotnet ef database update
 This will automatically create the database and all required tables.
+
 Step 5: Run the application
 bashdotnet run
+
 Step 6: Open in browser
 Go to:
 http://localhost:5000

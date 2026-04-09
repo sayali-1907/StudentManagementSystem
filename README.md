@@ -90,6 +90,6 @@ POST /api/students
 PUT /api/students/{id}
 DELETE /api/students/{id}
 
-Running Unit Tests
+## Running Unit Tests
 cd StudentManagement.Tests
 dotnet test
